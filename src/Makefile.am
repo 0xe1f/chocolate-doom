@@ -21,6 +21,7 @@ execgames_SCRIPTS = $(SETUP_BINARIES)
 AM_CFLAGS = -I$(top_srcdir)/textscreen            \
             -I$(top_srcdir)/opl                   \
             -I$(top_srcdir)/pcsound               \
+            -I$(top_srcdir)/rgbserver             \
             -I$(top_srcdir)/win32                 \
             @SDLMIXER_CFLAGS@ @SDLNET_CFLAGS@
 
@@ -150,6 +151,7 @@ SOURCE_FILES_WITH_DEH = $(SOURCE_FILES) $(DEHACKED_SOURCE_FILES)
 EXTRA_LIBS =                                               \
                $(top_builddir)/textscreen/libtextscreen.a  \
                $(top_builddir)/pcsound/libpcsound.a        \
+               $(top_builddir)/rgbserver/librgbserver.a    \
                $(top_builddir)/opl/libopl.a                \
                @LDFLAGS@                                   \
                @SDL_LIBS@                                  \

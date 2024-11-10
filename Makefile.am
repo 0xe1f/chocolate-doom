@@ -47,7 +47,7 @@ strifedocs_DATA = $(DOC_FILES) README.Strife.md
 
 MAINTAINERCLEANFILES =  $(AUX_DIST_GEN)
 
-SUBDIRS=textscreen opl pcsound data src man
+SUBDIRS=textscreen opl pcsound rgbserver data src man
 
 DIST_SUBDIRS=pkg $(SUBDIRS)
 

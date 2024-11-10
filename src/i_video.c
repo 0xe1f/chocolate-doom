@@ -23,6 +23,8 @@
 #include "SDL.h"
 #include "SDL_opengl.h"
 
+#include "rgbserver.h"
+
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -274,6 +276,8 @@ void I_ShutdownGraphics(void)
         SetShowCursor(true);
 
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
+
+        rgbs_end();
 
         initialized = false;
     }
@@ -782,6 +786,9 @@ void I_FinishUpdate (void)
                     &argbbuffer->pitch);
     SDL_LowerBlit(screenbuffer, &blit_rect, argbbuffer, &blit_rect);
     SDL_UnlockTexture(texture);
+
+    rgbs_poll();
+    rgbs_send(argbbuffer->pixels, argbbuffer->pitch * SCREENHEIGHT);
 
     // Make sure the pillarboxes are kept clear each frame.
 
@@ -1492,6 +1499,19 @@ void I_InitGraphics(void)
     // Call I_ShutdownGraphics on quit
 
     I_AtExit(I_ShutdownGraphics, true);
+
+    int bpp = 4;
+    struct FrameGeometry data = {
+        SCREENWIDTH * SCREENHEIGHT * bpp,
+        SCREENWIDTH * bpp,
+        SCREENWIDTH,
+        SCREENHEIGHT,
+        PIXEL_FORMAT_ARGB8888,
+        0,
+        MAGIC_NUMBER
+    };
+    rgbs_set_buffer_data(data);
+    rgbs_start();
 }
 
 // Bind all variables controlling video options into the configuration
